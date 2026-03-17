@@ -21,6 +21,7 @@ export const getInvoices = async (req, res) => {
         path: 'reservation',
         populate: { path: 'restaurant' }
       })
+      .populate('table')
       .sort({ createdAt: -1 });
     
     // For STAFF/ADMIN, filter by their restaurant after populate
@@ -40,7 +41,8 @@ export const getInvoices = async (req, res) => {
 export const getInvoice = async (req, res) => {
   try {
     const invoice = await Invoice.findById(req.params.id)
-      .populate('reservation');
+      .populate('reservation')
+      .populate('table');
     if (!invoice) {
       return res.status(404).json({ message: "Invoice not found" });
     }
@@ -54,6 +56,7 @@ export const createInvoice = async (req, res) => {
   try {
     const {
       reservation,
+      table,
       payerName,
       payerPhone,
       payerEmail,
@@ -81,6 +84,7 @@ export const createInvoice = async (req, res) => {
 
     const invoice = await Invoice.create({
       reservation,
+      table,
       payerName,
       payerPhone,
       payerEmail,
@@ -101,12 +105,12 @@ export const createInvoice = async (req, res) => {
 
 export const updateInvoice = async (req, res) => {
   try {
-    const { paymentMethod, discount, totalAmount } = req.body;
+    const { paymentMethod, discount, totalAmount, table } = req.body;
     const invoice = await Invoice.findByIdAndUpdate(
       req.params.id,
-      { paymentMethod, discount, totalAmount },
+      { paymentMethod, discount, totalAmount, table },
       { new: true }
-    ).populate('reservation');
+    ).populate('reservation').populate('table');
     if (!invoice) {
       return res.status(404).json({ message: "Invoice not found" });
     }
@@ -125,7 +129,7 @@ export const markInvoicePaid = async (req, res) => {
       req.params.id,
       { paymentStatus: "PAID", paymentDate: new Date() },
       { new: true }
-    ).populate('reservation');
+    ).populate('reservation').populate('table');
     
     if (!invoice) {
       return res.status(404).json({ message: "Invoice not found" });

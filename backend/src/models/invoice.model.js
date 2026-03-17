@@ -9,6 +9,11 @@ const invoiceSchema = new mongoose.Schema(
       required: true
     },
 
+    table: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Table"
+    },
+
     payerName: String,
     payerPhone: String,
     payerEmail: String,

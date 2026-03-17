@@ -10,6 +10,7 @@ import reservationUpdateRoutes from "./routes/reservation-update.route.js";
 import tableRoutes from "./routes/table.route.js";
 import invoiceRoutes from "./routes/invoice.route.js";
 import invoiceAutoRoutes from "./routes/invoice-auto.route.js";
+import employeeRoutes from "./routes/employee.route.js";
 import "./jobs/reservationTimestamps.job.js";
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use("/api/reservations", reservationUpdateRoutes);
 app.use("/api/tables", tableRoutes);
 app.use("/api/invoices", invoiceRoutes);
 app.use("/api/invoices", invoiceAutoRoutes);
+app.use("/api/employees", employeeRoutes);
 
 app.get("/", (req, res) => {
     res.json({ message: "Backend + MongoDB working 🚀" });
