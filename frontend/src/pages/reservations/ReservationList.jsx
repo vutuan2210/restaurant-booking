@@ -201,7 +201,7 @@ export default function ReservationList() {
 
   const todayCount = reservations?.filter(r => {
     const today = new Date().toDateString()
-    return new Date(r.date).toDateString() === today
+    return new Date(r.expectedCheckinTime).toDateString() === today
   }).length || 0
 
   const pendingCount = reservations?.filter(r => r.status === 'PENDING').length || 0
@@ -311,9 +311,7 @@ export default function ReservationList() {
                 <TableRow>
                   <TableHead>Khach hang</TableHead>
                   <TableHead>Lien he</TableHead>
-                  <TableHead>Ngay</TableHead>
-                  <TableHead>Gio</TableHead>
-                  <TableHead>So khach</TableHead>
+                  <TableHead>Thoi gian du kien</TableHead>
                   <TableHead>Trang thai</TableHead>
                   <TableHead className="text-right">Thao tac</TableHead>
                 </TableRow>
