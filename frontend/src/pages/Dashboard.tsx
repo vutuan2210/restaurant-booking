@@ -64,7 +64,7 @@ export default function Dashboard() {
 
   const todayReservations = reservations?.filter(r => {
     const today = new Date().toDateString()
-    return new Date(r.date).toDateString() === today
+    return new Date(r.expectedCheckinTime).toDateString() === today
   }) || []
 
   const pendingReservations = reservations?.filter(r => r.status === 'PENDING') || []
@@ -147,9 +147,7 @@ export default function Dashboard() {
                   <TableRow>
                     <TableHead>Khach hang</TableHead>
                     <TableHead>So dien thoai</TableHead>
-                    <TableHead>Ngay</TableHead>
-                    <TableHead>Gio</TableHead>
-                    <TableHead>So khach</TableHead>
+                    <TableHead>Thoi gian du kien</TableHead>
                     <TableHead>Trang thai</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -161,10 +159,11 @@ export default function Dashboard() {
                       </TableCell>
                       <TableCell>{reservation.customerPhone}</TableCell>
                       <TableCell>
-                        {new Date(reservation.date).toLocaleDateString('vi-VN')}
+                        {new Date(reservation.expectedCheckinTime).toLocaleString('vi-VN', {
+                          dateStyle: 'short',
+                          timeStyle: 'short'
+                        })}
                       </TableCell>
-                      <TableCell>{reservation.time}</TableCell>
-                      <TableCell>{reservation.guests}</TableCell>
                       <TableCell>
                         <ReservationStatusBadge status={reservation.status} />
                       </TableCell>
